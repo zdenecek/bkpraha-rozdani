@@ -7,6 +7,7 @@ on:
     paths:
       - app/**
       - public/**
+      - deploy-root/**
       - .github/workflows/deploy.yml
   workflow_dispatch:
 
@@ -38,6 +39,7 @@ jobs:
         run: |
           mkdir deploy
           cp -r app public deploy/
+          cp deploy-root/.htaccess deploy/
           rm deploy/app/config.example.php
           php -r '
             $c = [

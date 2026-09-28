@@ -1,5 +1,6 @@
 Options -Indexes
-DirectoryIndex index.php
 
 RewriteEngine On
+RewriteRule ^$ public/index.php83 [L]
+RewriteRule ^([a-z]+)\.php$ public/$1.php83 [L]
 RewriteRule ^(?!public/)(.*)$ public/$1 [L]

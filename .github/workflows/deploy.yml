@@ -40,6 +40,7 @@ jobs:
           mkdir deploy
           cp -r app public deploy/
           cp deploy-root/.htaccess deploy/
+          for f in deploy/public/*.php; do mv "$f" "${f%.php}.php83"; done
           rm deploy/app/config.example.php
           php -r '
             $c = [

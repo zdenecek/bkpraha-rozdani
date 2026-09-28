@@ -1,0 +1,63 @@
+
+:root{--green:#188918;--dark:#164e36;--ink:#173b30;--muted:#64766c;--line:#dbe6dc;--pale:#eff6ed;--red:#b33235}*{box-sizing:border-box}body{margin:0;background:hsl(120,67.90123456790124%,97.27058823529411%);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}header{background:#fff;border-bottom:1px solid var(--line)}.top{max-width:1320px;margin:auto;padding:24px 28px;display:flex;align-items:center;gap:16px;justify-content:space-between}.brand{font-size:13px;font-weight:750;letter-spacing:.13em;text-transform:uppercase}.badge{font-size:12px;border-radius:20px;background:var(--pale);padding:5px 12px}main{max-width:1320px;margin:auto;padding:32px 28px 60px}h1{font-size:clamp(28px,4vw,42px);line-height:1.15;margin:0 0 12px;font-weight:700;letter-spacing:-.035em}h2{font-size:22px;line-height:1.3;margin:0 0 18px}h3{font-size:16px;margin:16px 0 10px}.lead{color:var(--muted);margin:0 0 22px}.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:24px}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 5px 25px #163a2704}.preview{position:sticky;top:20px}.eyebrow{font-size:11px;font-weight:750;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:12px}label{display:block;font-size:14px;font-weight:650;margin-bottom:6px}input,textarea,select{font:inherit;color:var(--ink);background:#fff;border:1px solid #b9ccbd;border-radius:8px;padding:10px 12px;width:100%;min-height:44px}textarea{resize:vertical;min-height:180px}input:focus,textarea:focus,select:focus{outline:3px solid #18891830;border-color:var(--green)}button{font:inherit;font-size:14px;font-weight:650;cursor:pointer;border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink);padding:10px 14px;min-height:44px}button:hover:not(:disabled){background:var(--pale);border-color:#9eba9e}button:focus-visible,summary:focus-visible{outline:3px solid #18891860;outline-offset:2px}button:disabled{opacity:.32;cursor:default}.primary,button.active{background:var(--dark);border-color:var(--dark);color:white}.primary:hover:not(:disabled),button.active:hover{background:#236348}.small{font-size:13px;color:var(--muted)}.save{margin-left:auto;font-size:12px;color:var(--muted)}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 18px}.field{margin-bottom:18px}.hands{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:18px}.hands button{padding:9px 4px}.hands small{display:block;font-size:11px;font-weight:500}.suit-entry{display:grid;grid-template-columns:24px 1fr;align-items:center;gap:10px;margin-bottom:10px}.suit{font-size:24px}.red{color:var(--red)}.suit-entry input{text-transform:uppercase;letter-spacing:.12em;font-family:ui-monospace,monospace}.hint{font-size:12px;color:var(--muted);margin:8px 0 12px}.feedback{border-left:3px solid var(--green);background:var(--pale);padding:10px 12px;border-radius:0 6px 6px 0;font-size:13px;margin-top:14px}.feedback.error{border-color:var(--red);background:#fff1ef;color:#8c292b}.feedback ul{margin:0;padding-left:18px}details{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}summary{cursor:pointer;font-size:14px;font-weight:650;min-height:36px}.deck-row{margin:10px 0}.cards{display:grid;grid-template-columns:repeat(13,1fr);gap:3px}.cards button{padding:8px 0;min-width:0;font-family:ui-monospace,monospace}.cards button.owned{background:var(--pale);border-color:var(--green)}.levels{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.levels button{padding:8px 0}.strains{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}.strains button{font-size:22px;padding:6px}.actions{display:flex;gap:6px;flex-wrap:wrap}.auction{border-collapse:collapse;width:100%;margin:14px 0;font-size:15px}.auction th{font-weight:600;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line);padding:7px}.auction td{text-align:center;padding:6px;width:25%;font-weight:600}.auction th.turn{color:var(--green);background:var(--pale)}.preview h2{font-size:27px;overflow-wrap:anywhere;margin-bottom:6px}.author{font-size:13px;color:var(--muted);margin-bottom:20px}.board{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-areas:'. n .' 'w info e' '. s .';gap:8px;margin:22px 0}.hand{font-size:14px;min-width:0}.hand b{font-size:12px;display:block;margin-bottom:4px}.hand.n{grid-area:n}.hand.e{grid-area:e}.hand.s{grid-area:s}.hand.w{grid-area:w}.holding{display:flex;gap:6px;line-height:1.75}.holding .symbol{flex:0 0 12px}.ranks{font-family:ui-monospace,monospace;overflow-wrap:anywhere;letter-spacing:.035em}.board-info{grid-area:info;display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:12px;text-align:center;background:var(--pale);border-radius:12px;padding:6px}.vul{border-bottom:2px solid var(--red);display:inline!important}.prose{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;border-top:1px solid var(--line);padding-top:20px;margin-top:24px}.placeholder{color:#839288;font-style:italic}.footnote{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:20px}.mobile-preview{display:none}#toast{font-size:13px;color:var(--dark)}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.preview{position:static}.mobile-preview{display:inline-block}.cards{grid-template-columns:repeat(13,1fr)}}@media(max-width:520px){main{padding:24px 14px}.top{padding:18px 14px}.panel{padding:18px 14px}.row{gap:10px}.cards{grid-template-columns:repeat(7,1fr)}.cards button{min-height:44px}.board{gap:5px}.hand{font-size:12px}.ranks{letter-spacing:0}.board-info{font-size:11px}.save{width:100%;margin-left:0}.badge{font-size:10px}.toolbar button{font-size:12px}.preview h2{font-size:24px}.hands button{font-size:13px}}
+@media print{header,.intro,.editor,.toolbar,.footnote{display:none}.layout{display:block}.preview{position:static}.panel{border:0;box-shadow:none}body{background:white}main{padding:0}.board{max-width:600px;margin:25px auto}}
+
+/* Čitelný diagram; mobilní rozložení a kompaktní čtvercový stůl na počítači. */
+@media(min-width:951px){.layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}}
+.preview .board{grid-template-columns:minmax(0,1fr) 112px minmax(0,1fr);grid-template-areas:none;gap:16px 8px}
+.preview .hand{font-size:20px;grid-area:auto}
+.preview .hand.n{grid-column:1 / 4;grid-row:1;width:max-content;min-width:112px;max-width:100%;justify-self:center}
+.preview .hand.w{grid-column:1;grid-row:2}
+.preview .hand.e{grid-column:3;grid-row:2}
+.preview .hand.s{grid-column:1 / 4;grid-row:3;width:max-content;min-width:112px;max-width:100%;justify-self:center}
+.preview .board-info{grid-column:2;grid-row:2;width:112px;height:112px;align-self:center;justify-self:center;font-size:14px;padding:8px;overflow-wrap:anywhere}
+.preview .hand b{font-size:17px}
+.preview .holding{gap:7px;line-height:1.65}
+.preview .holding .symbol{flex-basis:16px}
+.preview .ranks{letter-spacing:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-weight:550}
+.preview .auction{font-size:20px}
+.preview .auction th{font-size:16px}
+.preview .author{font-size:16px}
+.preview .prose{font-size:18px;line-height:1.7}
+@media(max-width:520px){.preview .board{grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr);gap:14px 5px}.preview .board-info{width:88px;height:88px;font-size:12px;padding:5px}.preview .hand.n,.preview .hand.s{min-width:88px}.preview .hand{font-size:18px}.preview .hand b{font-size:16px}.preview .holding{gap:4px}.preview .holding .symbol{flex-basis:13px}.preview .auction th{font-size:14px}.preview .auction{font-size:18px}}
+/* Desktop: square as tall as a four-suit hand; equal space around the table. */
+@media(min-width:521px){
+.preview .board{grid-template-columns:minmax(0,1fr) 164px minmax(0,1fr);gap:16px}
+.preview .board-info{width:164px;height:164px}
+.preview .hand.n,.preview .hand.s{min-width:164px}
+.preview .hand.w,.preview .hand.e{width:max-content;max-width:100%;align-self:center}
+.preview .hand.w{justify-self:end}
+.preview .hand.e{justify-self:start}
+}
+/* Readable auction notation in both entry and preview. */
+#auction-editor .auction,.preview .auction{font-size:22px}
+#auction-editor .auction th,.preview .auction th{font-size:16px}
+.auction .call-double{color:var(--red)}
+.auction .call-redouble{color:#245fba}
+@media(max-width:520px){#auction-editor .auction,.preview .auction{font-size:20px}}
+
+/* Shared BKP masthead and footer, matching the tournament results site. */
+body{min-height:100vh;display:flex;flex-direction:column}
+body>main{width:100%;flex:1}
+.bkp-header,.bkp-footer{background-color:#272727;color:#fff;background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("suits.webp");background-size:cover;background-position:center}
+.bkp-header{border:0;padding:15px 24px;text-align:center}
+.bkp-header .bkp-title{margin:0;font-size:clamp(25px,4vw,36px);line-height:1.25;font-weight:700;letter-spacing:0}
+.bkp-header .bkp-title a{color:inherit;text-decoration:none}
+.bkp-header nav{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:10px;font-size:14px}
+.bkp-header nav a,.bkp-footer a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.bkp-footer{padding:22px 20px;text-align:center;font-size:14px}
+.bkp-footer .footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin:8px 0 0}
+.bkp-footer .footer-inner{display:inline-block;background:#0008;padding:8px 18px;border-radius:4px}
+.home{max-width:780px}
+.home-intro{text-align:center;margin:0 auto 28px;max-width:660px}
+.home-intro h1{font-size:clamp(26px,4vw,34px);margin-bottom:16px}
+.home-intro p{color:var(--muted)}
+a.button{display:inline-block;padding:11px 20px;border-radius:8px;background:var(--dark);color:white;font-weight:650;text-decoration:none}
+a.button:hover{background:#236348}
+.home .preview{position:static}
+@media(max-width:520px){.bkp-header{padding:16px 14px}.bkp-header nav{gap:16px}.bkp-footer{padding:18px 14px}}
+@media print{.bkp-header,.bkp-footer{display:none}}
+
+
+.feed{max-width:720px;margin:auto;padding:12px}.feed .preview{position:static}.trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}

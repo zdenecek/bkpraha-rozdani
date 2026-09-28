@@ -1,0 +1,1 @@
+<footer class="bkp-footer"><div class="footer-inner">Bridžový klub Praha<div class="footer-links"><a href="https://www.bkpraha.cz/">Web klubu</a><a href="admin.php">Správa příspěvků</a></div></div></footer>

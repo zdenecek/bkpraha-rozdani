@@ -1,0 +1,61 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - app/**
+      - public/**
+      - .github/workflows/deploy.yml
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Test and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+
+      - name: Lint and test
+        run: |
+          find app public tests -name '*.php' -print0 | xargs -0 -n1 php -l
+          php tests/validate.php
+
+      - name: Prepare deploy directory
+        env:
+          DB_DSN: ${{ secrets.DB_DSN }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+        run: |
+          mkdir deploy
+          cp -r app public deploy/
+          rm deploy/app/config.example.php
+          php -r '
+            $c = [
+              "dsn" => getenv("DB_DSN"),
+              "db_user" => getenv("DB_USER"),
+              "db_password" => getenv("DB_PASSWORD"),
+              "admin_password_hash" => getenv("ADMIN_PASSWORD_HASH"),
+              "secret" => getenv("APP_SECRET"),
+            ];
+            foreach ($c as $k => $v) if ($v === false || $v === "") { fwrite(STDERR, "Missing secret for $k\n"); exit(1); }
+            file_put_contents("deploy/app/config.php", "<?php\nreturn " . var_export($c, true) . ";\n");
+          '
+
+      - name: Upload via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_LOGIN }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./deploy/
+          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}

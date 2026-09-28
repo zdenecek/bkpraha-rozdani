@@ -1,0 +1,1 @@
+<header class="bkp-header"><p class="bkp-title"><a href="index.php">Zajímavá rozdání</a></p><nav aria-label="Navigace"><a href="https://www.bkpraha.cz/">← BK Praha</a><a href="index.php">Příspěvky</a><a href="editor.php">Přidat rozdání</a></nav></header>

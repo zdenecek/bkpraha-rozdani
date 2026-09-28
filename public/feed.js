@@ -1,0 +1,23 @@
+const seats=['N','E','S','W'],names={N:'North',E:'East',S:'South',W:'West'},suits=['S','H','D','C'],symbols={S:'♠',H:'♥',D:'♦',C:'♣'},ranks='AKQJT98765432',bidSuits=['C','D','H','S','NT'];
+let state;
+const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function parse(v){let t=v.toUpperCase().replace(/10/g,'T').replace(/[\s,;–—-]/g,'');return {cards:[...t].filter(c=>ranks.includes(c)),invalid:[...t].filter(c=>!ranks.includes(c))};}
+function auctionState(a=state.auction,dealer=state.dealer){let high=-1,lastBidder=-1,doubled=0,passes=0,closed=false;for(let i=0;i<a.length;i++){let x=a[i],seat=(seats.indexOf(dealer)+i)%4;if(x==='P')passes++;else{passes=0;if(x==='X')doubled=1;else if(x==='XX')doubled=2;else{high=(Number(x[0])-1)*5+bidSuits.indexOf(x.slice(1));lastBidder=seat;doubled=0}}closed=(high<0?passes>=4:passes>=3)}return {high,lastBidder,doubled,closed,next:(seats.indexOf(dealer)+a.length)%4}}
+function fmt(x){if(x==='P')return 'Pass';if(x==='X')return '<span class="call-double">X</span>';if(x==='XX')return '<span class="call-redouble">XX</span>';let t=x.slice(1);return `${x[0]}<span class="${t==='H'||t==='D'?'red':''}">${symbols[t]||'NT'}</span>`}
+function auctionTable(){if(!state.auction.length)return '<p class="small">Dražba zatím není zadaná.</p>';let z=auctionState(),offset=seats.indexOf(state.dealer),cells=Array(offset).fill(null).concat(state.auction);while(cells.length%4)cells.push(null);let rows='';for(let i=0;i<cells.length;i+=4)rows+='<tr>'+cells.slice(i,i+4).map(x=>`<td>${x===null?'·':fmt(x)}</td>`).join('')+'</tr>';return '<table class="auction"><thead><tr>'+seats.map((s,i)=>`<th class="${!z.closed&&z.next===i?'turn':''}">${names[s]}</th>`).join('')+'</tr></thead><tbody>'+rows+'</tbody></table>'}
+function boardHTML(){const err=[],total=seats.reduce((n,s)=>n+suits.reduce((k,t)=>k+parse(state.hands[s][t]).cards.length,0),0);return seats.map(s=>`<div class="hand ${s.toLowerCase()}"><b><span class="${state.vul==='both'||state.vul.includes(s)?'vul':''}">${names[s]}</span>${state.dealer===s?' •':''}</b>${suits.map(t=>{let p=parse(state.hands[s][t]);let sorted=[...p.cards].sort((a,b)=>ranks.indexOf(a)-ranks.indexOf(b)).join('');return `<div class="holding"><span class="symbol ${t==='H'||t==='D'?'red':''}">${symbols[t]}</span><span class="ranks">${sorted||'—'}</span></div>`}).join('')}</div>`).join('')+`<div class="board-info"><strong>Dealer ${names[state.dealer]}</strong><span>${{none:'none',NS:'NS',EW:'EW',both:'all'}[state.vul]}</span></div>`}
+let offset=0;
+async function load(){
+ const button=document.getElementById('more');button.disabled=true;
+ try{
+ const response=await fetch('api.php?action=list&offset='+offset);if(!response.ok)throw Error();
+ const {items}=await response.json();
+ if(!offset&&!items.length)document.getElementById('message').textContent='Zatím tu není žádný zveřejněný příspěvek. Buďte první!';
+ for(const item of items){state=item.deal;const article=document.createElement('article');article.className='panel preview';
+ article.innerHTML='<h2>'+esc(state.title)+'</h2><div class="author">Autor: '+esc(state.author)+'</div><div class="board">'+boardHTML()+'</div>'+(state.auction.length?auctionTable():'')+'<div class="prose">'+esc(state.body)+'</div>';
+ document.getElementById('posts').appendChild(article);}
+ offset+=items.length;button.hidden=items.length<10;
+ }catch(e){document.getElementById('message').textContent='Příspěvky se nepodařilo načíst. Zkuste to prosím znovu.';}
+ finally{button.disabled=false;}
+}
+document.getElementById('more').onclick=load;load();

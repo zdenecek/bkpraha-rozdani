@@ -4,7 +4,7 @@ Zajímavá rozdání – BK Praha. PHP 8.3 + MariaDB. See [INSTALACE.md](INSTALA
 
 ## Deploy
 
-Push to `main` runs lint + tests and uploads `app/`, `public/` and `deploy-root/.htaccess` via FTP to `/www/domains/rozdani.bkpraha.cz` on WEDOS. WEDOS serves the whole folder, so the root `.htaccess` routes every request into `public/`; `app/` is never reachable. The hosting runs PHP 7.4, so the deploy renames `public/*.php` to `*.php83` (WEDOS runs those on PHP 8.3) and `.htaccess` maps the `.php` URLs to them.
+Push to `main` runs lint + tests and uploads `app/`, `public/` and `deploy-root/.htaccess` via FTP to `/www/domains/rozdani.bkpraha.cz` on WEDOS. WEDOS serves the whole folder, so the root `.htaccess` routes every request into `public/`; `app/` is never reachable.
 
 `app/config.php` is generated from secrets during deploy and is never committed.
 

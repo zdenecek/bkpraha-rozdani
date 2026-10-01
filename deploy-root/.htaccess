@@ -2,4 +2,7 @@ Options -Indexes
 DirectoryIndex index.php
 
 RewriteEngine On
+RewriteCond %{HTTPS} !on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 RewriteRule ^(?!public/)(.*)$ public/$1 [L]

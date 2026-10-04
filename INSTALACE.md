@@ -60,7 +60,7 @@ Referenční specifikace: https://www.tistis.nl/pbn/pbn_v21.txt
 ## Aktualizace 4. 10. 2026 – samostatná rozdání
 
 Web je již nasazený na WEDOS; aktuální nasazovací postup určuje CONTRIBUTING.md.
-Úvodní stránka nyní zobrazuje seznam po pěti položkách (název, autor, datum).
+Úvodní stránka zobrazuje seznam podle roku zveřejnění (název, autor, datum), od nejnovějších. Výchozí je aktuální rok v Europe/Prague; nabídka obsahuje roky zveřejněných příspěvků a volbu Všechny roky. Počet položek není omezen na pět.
 Každý schválený příspěvek má trvalý odkaz `rozdani.php?id=ID` a odkazy na novější/starší rozdání.
 Nepovinné pole Rozbor / řešení se veřejně odkrývá kliknutím. Nejde o ochranu tajných dat; diagram zůstává viditelný celý.
 Tato změna nevyžaduje migraci: rozbor je součástí existujícího JSON payloadu, staré příspěvky fungují dál.

@@ -56,3 +56,12 @@ Ověřeno na dodaném souboru skupinovky A: všech 28 rozdání obsahuje 52 jedi
 Import nezahrnuje sehrávku, výsledky, double-dummy analýzy, poznámky ani alerty. Neplatná nebo nepodporovaná dražba se nahradí prázdnou s viditelným upozorněním, karty lze načíst samostatně. Chybné karty zablokují dané rozdání, ostatní zůstávají volitelné. Neúplná rozdání se načtou s upozorněním. Nejde o úplný editor všech rozšíření PBN.
 
 Referenční specifikace: https://www.tistis.nl/pbn/pbn_v21.txt
+
+## Aktualizace 4. 10. 2026 – samostatná rozdání
+
+Web je již nasazený na WEDOS; aktuální nasazovací postup určuje CONTRIBUTING.md.
+Úvodní stránka nyní zobrazuje seznam po pěti položkách (název, autor, datum).
+Každý schválený příspěvek má trvalý odkaz `rozdani.php?id=ID` a odkazy na novější/starší rozdání.
+Nepovinné pole Rozbor / řešení se veřejně odkrývá kliknutím. Nejde o ochranu tajných dat; diagram zůstává viditelný celý.
+Tato změna nevyžaduje migraci: rozbor je součástí existujícího JSON payloadu, staré příspěvky fungují dál.
+Dodatečný test navigace: `php -d extension=pdo_sqlite tests/pages.php` (vyžaduje PDO SQLite).

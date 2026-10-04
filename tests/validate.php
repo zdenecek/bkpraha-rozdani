@@ -17,3 +17,8 @@ $x=$d;$x['auction'][]='P';rejects($x,'closed auction');
 $x=$d;$x['title']='';rejects($x,'required title');
 $x=$d;$x['hands']['N']['S']='A';ok(validate_deal($x)['hands']['N']['S']==='A','partial deal');
 echo "PASS: server card and auction validation\n";
+
+ok(validate_deal($d)['solution']==='', 'old articles remain valid');
+$x=$d;$x['solution']=' Rozbor ';ok(validate_deal($x)['solution']==='Rozbor','solution preserved');
+$x=$d;$x['solution']=[];rejects($x,'invalid solution type');
+$x=$d;$x['solution']=str_repeat('a',20001);rejects($x,'solution length limit');

@@ -61,3 +61,13 @@ a.button:hover{background:#236348}
 
 
 .feed{max-width:720px;margin:auto;padding:12px}.feed .preview{position:static}.trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+
+/* Index and individual articles share stable, linkable pages. */
+a{color:var(--dark);text-underline-offset:3px}a:focus-visible{outline:3px solid #18891860;outline-offset:4px}
+.post-summary h2{margin-bottom:8px;overflow-wrap:anywhere}.post-summary h2 a{text-decoration:none}.post-summary h2 a:hover{text-decoration:underline}
+.post-meta{display:flex;flex-wrap:wrap;gap:8px 20px;color:var(--muted);font-size:14px}.read-deal{font-size:14px;font-weight:650}
+.pagination,.deal-navigation{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-top:24px}.pagination{flex-wrap:wrap}.button.secondary{background:white;color:var(--dark);border:1px solid var(--line)}
+.back-link{display:inline-block;margin-bottom:22px}.deal-page h1{font-size:clamp(26px,4vw,36px);overflow-wrap:anywhere}.deal-page .preview{position:static}
+.deal-navigation{align-items:stretch}.deal-navigation a{flex:1;min-width:0;padding:16px;background:white;border:1px solid var(--line);border-radius:12px;text-decoration:none;overflow-wrap:anywhere}.deal-navigation small,.deal-navigation span{display:block}.deal-navigation small{color:var(--muted);margin-bottom:6px}.deal-navigation span{font-weight:650}.solution summary{font-size:16px;color:var(--dark);padding:8px 0}.solution .prose{margin-top:8px;border:0;padding-top:8px}
+@media(max-width:520px){.deal-navigation{flex-direction:column}.post-meta{font-size:13px}.home-intro{text-align:left}}
+@media print{.back-link,.pagination,.deal-navigation{display:none}}

@@ -26,6 +26,9 @@ function validate_deal(mixed $v): array {
         if(!is_string($s)||!trim($s)||preg_match_all('/./us',$s)>$max)throw new InvalidArgumentException('Vyplňte název, jméno autora a text v povolené délce.');
         $out[$field]=trim($s);
     }
+    $solution=$v['solution']??'';
+    if(!is_string($solution)||preg_match_all('/./us',$solution)>20000)throw new InvalidArgumentException('Rozbor může mít nejvýše 20 000 znaků.');
+    $out['solution']=trim($solution);
     $a=$v['auction']??null;
     if(!is_array($a)||!array_is_list($a)||count($a)>400)throw new InvalidArgumentException('Neplatná dražba.');
     $high=-1;$bidder=-1;$doubled=0;$passes=0;$closed=false;

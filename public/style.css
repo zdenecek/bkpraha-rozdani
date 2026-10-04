@@ -71,3 +71,5 @@ a{color:var(--dark);text-underline-offset:3px}a:focus-visible{outline:3px solid 
 .deal-navigation{align-items:stretch}.deal-navigation a{flex:1;min-width:0;padding:16px;background:white;border:1px solid var(--line);border-radius:12px;text-decoration:none;overflow-wrap:anywhere}.deal-navigation small,.deal-navigation span{display:block}.deal-navigation small{color:var(--muted);margin-bottom:6px}.deal-navigation span{font-weight:650}.solution summary{font-size:16px;color:var(--dark);padding:8px 0}.solution .prose{margin-top:8px;border:0;padding-top:8px}
 @media(max-width:520px){.deal-navigation{flex-direction:column}.post-meta{font-size:13px}.home-intro{text-align:left}}
 @media print{.back-link,.pagination,.deal-navigation{display:none}}
+
+.archive-filters{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px;margin:16px 0}.archive-filters label{margin:0;min-width:150px}.archive-filters select{margin-top:6px}.archive-filters button{margin:0}.home .post-summary{padding:16px 20px;margin:0 0 12px}.home .post-summary h2{font-size:20px;margin-top:0}.home .post-summary .post-meta{margin-bottom:8px}

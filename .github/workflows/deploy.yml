@@ -6,6 +6,7 @@ on:
       - main
       - kevin/moderation-notifications
       - kevin/admin-settings
+      - kevin/weekly-widget
     paths:
       - app/**
       - public/**

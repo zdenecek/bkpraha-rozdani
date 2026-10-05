@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - kevin/moderation-notifications
     paths:
       - app/**
       - public/**
@@ -32,12 +33,14 @@ jobs:
           php tests/community.php
           php tests/pages.php
           php tests/discussions.php
+          php tests/moderation.php
           node tests/editor.cjs
           node --check public/editor.js
           node --check public/deal.js
           node --check public/community.js
 
       - name: Prepare deploy directory
+        if: github.ref == 'refs/heads/main'
         env:
           DB_DSN: ${{ secrets.DB_DSN }}
           DB_USER: ${{ secrets.DB_USER }}
@@ -62,6 +65,7 @@ jobs:
           '
 
       - name: Upload via FTP
+        if: github.ref == 'refs/heads/main'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}

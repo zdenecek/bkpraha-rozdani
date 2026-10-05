@@ -22,3 +22,6 @@ ok(validate_deal($d)['solution']==='', 'old articles remain valid');
 $x=$d;$x['solution']=' Rozbor ';ok(validate_deal($x)['solution']==='Rozbor','solution preserved');
 $x=$d;$x['solution']=[];rejects($x,'invalid solution type');
 $x=$d;$x['solution']=str_repeat('a',20001);rejects($x,'solution length limit');
+ok(validate_deal($d)['poll']===null && validate_deal($d)['commentsEnabled']===false,'old articles have community disabled');
+$x=$d;$x['commentsEnabled']='true';rejects($x,'strict discussion flag');
+$x=$d;$x['poll']=['question'=>'Otázka','options'=>['A','B']];$x['commentsEnabled']=true;ok(validate_deal($x)['poll']===$x['poll'],'poll survives save');

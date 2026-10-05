@@ -24,3 +24,18 @@ check(archive_year(['2025'],[2026,2025],2026)===2026,'array input falls back saf
 check(archive_year('2025',[2026,2025],2026)===2025,'existing year selected');
 check(archive_year('1900',[2026,2025],2026)===2026,'unknown year falls back');
 echo "PASS: yearly archive, all years and timezone boundaries\n";
+
+if(is_file(__DIR__.'/../app/community.php')){
+    require __DIR__.'/../app/community.php';
+    check(archive_sort('activity',false)==='newest','global switch forces publication order');
+    check(count(community_archive_posts(null,'activity',false))===6,'disabled archive needs no comments table');
+    db()->exec("CREATE TABLE comments(id INTEGER PRIMARY KEY,post_id INTEGER,status TEXT,created_at TEXT)");
+    db()->exec("UPDATE posts SET payload='{\"commentsEnabled\":true}'");
+    db()->exec("UPDATE posts SET payload='{}' WHERE id=8");
+    db()->exec("INSERT INTO comments VALUES(1,1,'published','2026-10-01 10:00:00'),(2,1,'published','2026-10-02 10:00:00'),(3,3,'published','2026-10-03 10:00:00'),(4,4,'pending','2026-10-04 10:00:00'),(5,4,'rejected','2026-10-04 11:00:00'),(6,8,'published','2027-01-02 10:00:00')");
+    check(array_column(community_archive_posts(null,'comments',true),'id')===[1,3,8,4,7,6],'only visible approved comments count, ties use publication order');
+    check(array_column(community_archive_posts(null,'activity',true),'id')===[3,1,8,4,7,6],'last comment first; no comments last');
+    check(array_column(community_archive_posts(2026,'activity',true),'id')===[3,1,4,7],'activity respects selected year');
+    check(archive_sort(['activity'],true)==='newest','invalid sort falls back');
+    echo "PASS: comment count/activity sorting, moderation and disabled discussions\n";
+}

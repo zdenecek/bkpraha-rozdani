@@ -1,5 +1,17 @@
 <?php
 declare(strict_types=1);
+function weekly_publication_count(?DateTimeImmutable $now=null): int {
+    $now=($now??new DateTimeImmutable('now',new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('UTC'));
+    $q=db()->prepare("SELECT COUNT(*) FROM posts WHERE status='published' AND published_at>=? AND published_at<=?");
+    $q->execute([$now->modify('-7 days')->format('Y-m-d H:i:s'),$now->format('Y-m-d H:i:s')]);
+    return (int)$q->fetchColumn();
+}
+function weekly_publication_label(int $count): string {
+    if($count<=0)return 'Žádné nové rozdání za poslední týden.';
+    if($count===1)return '1 nové rozdání za poslední týden.';
+    if($count<5)return $count.' nová rozdání za poslední týden.';
+    return '5 a více nových rozdání za poslední týden.';
+}
 function published_post(int $id): array|false {
     $q=db()->prepare("SELECT id,payload,published_at FROM posts WHERE id=? AND status='published'");
     $q->execute([$id]);return $q->fetch();

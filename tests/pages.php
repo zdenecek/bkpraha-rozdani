@@ -24,6 +24,14 @@ check(archive_year(['2025'],[2026,2025],2026)===2026,'array input falls back saf
 check(archive_year('2025',[2026,2025],2026)===2025,'existing year selected');
 check(archive_year('1900',[2026,2025],2026)===2026,'unknown year falls back');
 echo "PASS: yearly archive, all years and timezone boundaries\n";
+check(weekly_publication_count(new DateTimeImmutable('2026-10-05 12:00:00',new DateTimeZone('UTC')))===3,'weekly count excludes pending, rejected, old and future posts');
+$q->execute([10,'{}','published','2026-09-28 12:00:00']);
+$q->execute([11,'{}','published','2026-09-28 11:59:59']);
+$q->execute([12,'{}','published','2026-10-05 12:00:01']);
+check(weekly_publication_count(new DateTimeImmutable('2026-10-05 14:00:00',new DateTimeZone('Europe/Prague')))===4,'weekly start inclusive, past-only and timezone independent');
+foreach([0=>'Žádné nové rozdání za poslední týden.',1=>'1 nové rozdání za poslední týden.',2=>'2 nová rozdání za poslední týden.',4=>'4 nová rozdání za poslední týden.',5=>'5 a více nových rozdání za poslední týden.',11=>'5 a více nových rozdání za poslední týden.'] as $count=>$label)check(weekly_publication_label($count)===$label,'weekly Czech label '.$count);
+db()->exec('DELETE FROM posts WHERE id>=10');
+echo "PASS: weekly publications, boundaries and Czech labels\n";
 
 if(is_file(__DIR__.'/../app/community.php')){
     require __DIR__.'/../app/community.php';

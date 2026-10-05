@@ -1,4 +1,8 @@
 (()=>{
+const toggle=document.getElementById('show-passwords');if(!toggle)return;
+toggle.addEventListener('change',()=>{for(const id of ['current-password','new-password','repeat-password'])document.getElementById(id).type=toggle.checked?'text':'password';});
+})();
+(()=>{
 if(!document.getElementById('toggle-password'))return;
 const passwordInput=document.getElementById('password');
 const passwordToggle=document.getElementById('toggle-password');

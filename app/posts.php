@@ -4,6 +4,11 @@ function published_post(int $id): array|false {
     $q=db()->prepare("SELECT id,payload,published_at FROM posts WHERE id=? AND status='published'");
     $q->execute([$id]);return $q->fetch();
 }
+function delete_post(int $id,int $revision): bool {
+    // InnoDB cascades remove comments and poll votes atomically with the post.
+    $q=db()->prepare('DELETE FROM posts WHERE id=? AND revision=?');
+    $q->execute([$id,$revision]);return $q->rowCount()===1;
+}
 function post_date(string $utc): string {
     return (new DateTimeImmutable($utc,new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Europe/Prague'))->format('j. n. Y');
 }

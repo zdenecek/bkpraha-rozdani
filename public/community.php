@@ -2,6 +2,7 @@
 require __DIR__.'/../app/bootstrap.php';
 require __DIR__.'/../app/posts.php';
 require __DIR__.'/../app/community.php';
+require __DIR__.'/../app/notifications.php';
 header('Content-Type: application/json; charset=utf-8');
 $method=$_SERVER['REQUEST_METHOD'];$action=$_GET['action']??'';
 if($method==='GET'){
@@ -48,5 +49,8 @@ if($action==='vote'){
     if(empty($deal['commentsEnabled'])){$pdo->rollBack();fail('Diskuse není zapnutá.',403);}
     $key=hash('sha256',$_SESSION['csrf'].'|'.$post['id'].'|'.json_encode($comment));
     $q=$pdo->prepare('INSERT INTO comments(post_id,request_key,author,body) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)');$q->execute([$post['id'],$key,$comment['author'],$comment['body']]);
+    $newComment=$q->rowCount()===1;
 }
-$pdo->commit();echo json_encode(['ok'=>true]);
+$pdo->commit();
+$notified=$action==='comment'&&$newComment?moderation_notification('comment',(int)$post['id'],$deal,$comment):null;
+echo json_encode(['ok'=>true,'notificationAccepted'=>$notified]);

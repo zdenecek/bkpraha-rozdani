@@ -1,6 +1,7 @@
 <?php
 require __DIR__.'/../app/bootstrap.php';
 require __DIR__.'/../app/validate.php';
+require __DIR__.'/../app/notifications.php';
 header('Content-Type: application/json; charset=utf-8');
 $action=$_GET['action']??'';
 if($_SERVER['REQUEST_METHOD']==='GET'){
@@ -35,7 +36,9 @@ if($action==='submit'){
     if($existing){echo json_encode(['ok'=>true,'id'=>(int)$existing]);exit;}
     limit('submit',15);
     $q=db()->prepare('INSERT INTO posts(request_key,payload) VALUES(?,?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)');$q->execute([$requestKey,$payload]);
-    echo json_encode(['ok'=>true,'id'=>(int)db()->lastInsertId()]);exit;
+    $id=(int)db()->lastInsertId();
+    $notified=$q->rowCount()===1?moderation_notification('post',$id,$deal):null;
+    echo json_encode(['ok'=>true,'id'=>$id,'notificationAccepted'=>$notified]);exit;
 }
 $status=$v['status']??'';
 if(!in_array($status,['pending','published','rejected'],true))fail('Neplatný stav.');

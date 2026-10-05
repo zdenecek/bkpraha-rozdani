@@ -1,4 +1,16 @@
 (()=>{
+if(!document.getElementById('toggle-password'))return;
+const passwordInput=document.getElementById('password');
+const passwordToggle=document.getElementById('toggle-password');
+passwordToggle.hidden=false;
+passwordToggle.addEventListener('click',()=>{
+    const visible=passwordInput.type==='password';
+    passwordInput.type=visible?'text':'password';
+    passwordToggle.textContent=visible?'Skrýt heslo':'Zobrazit heslo';
+    passwordToggle.setAttribute('aria-pressed',String(visible));
+});
+})();
+(()=>{
 const root=document.getElementById('community');if(!root)return;
 const id=Number(root.dataset.id),poll=JSON.parse(root.dataset.poll),byId=id=>document.getElementById(id);
 let pollState=null,after=0,showResults=false;
@@ -14,3 +26,4 @@ if(poll){byId('show-results').onclick=()=>{showResults=true;renderPoll();};byId(
 if(byId('comment-form')){byId('comments-more').onclick=async()=>{const b=byId('comments-more');b.disabled=true;await load(true);b.disabled=false;};byId('comment-form').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button');b.disabled=true;try{await request('comment',{author:byId('comment-author').value,body:byId('comment-body').value,website:byId('comment-website').value});byId('comment-body').value='';byId('comment-message').textContent='Děkujeme. Komentář čeká na schválení správcem.';}catch(err){byId('comment-message').textContent=err.message;}finally{b.disabled=false;}};}
 load();
 })();
+

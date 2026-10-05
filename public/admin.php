@@ -32,17 +32,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 ?><!doctype html><html lang="cs"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Správa rozdání – BK Praha</title><link rel="stylesheet" href="style.css?v=20261005"><body><?php require __DIR__.'/../app/header.php'; ?><main><h1>Správa příspěvků</h1>
 <?php if(!admin()): ?>
 <form method="post" class="panel"><input type="hidden" name="csrf" value="<?=h($_SESSION['csrf'])?>"><label for="password">Heslo správce</label><input type="password" id="password" name="password" autocomplete="current-password" required><button type="button" id="toggle-password" aria-controls="password" aria-pressed="false" hidden>Zobrazit heslo</button><p><?=h($error)?></p><button class="primary">Přihlásit se</button></form>
-<script>
-const passwordInput=document.getElementById('password');
-const passwordToggle=document.getElementById('toggle-password');
-passwordToggle.hidden=false;
-passwordToggle.addEventListener('click',()=>{
-    const visible=passwordInput.type==='password';
-    passwordInput.type=visible?'text':'password';
-    passwordToggle.textContent=visible?'Skrýt heslo':'Zobrazit heslo';
-    passwordToggle.setAttribute('aria-pressed',String(visible));
-});
-</script>
+<script src="community.js?v=20261005-password" defer></script>
 <?php else:
 $status=$_GET['status']??'pending';if(!in_array($status,['pending','published','rejected'],true))$status='pending';
 $page=max(0,(int)($_GET['page']??0));

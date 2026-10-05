@@ -13,7 +13,7 @@ Balíček pro Zdeňka Tomise. PHP 8.3+, MariaDB, PDO MySQL, HTTPS.
 - Zároveň zůstává původní datum zveřejnění při pouhé úpravě článku.
 - Neúplná rozdání jsou povolená; prázdnou barvu značí dlouhá pomlčka —. Duplicity, neplatné karty, více než 13 karet v ruce a neplatná dražba se odmítnou i na serveru.
 - Opakování stejného odeslání v téže relaci nevytváří další příspěvek.
-- Není zde odesílání e-mailů, registrace autorů ani komentáře. Potvrzení o přijetí se zobrazí ve formuláři. Správce sleduje čekající příspěvky ve správě.
+- Není zde odesílání e-mailů ani registrace autorů. Komentáře po migraci podléhají schválení. Potvrzení o přijetí se zobrazí ve formuláři. Správce sleduje čekající příspěvky ve správě.
 
 ## Instalace
 
@@ -65,3 +65,30 @@ Každý schválený příspěvek má trvalý odkaz `rozdani.php?id=ID` a odkazy 
 Nepovinné pole Rozbor / řešení se veřejně odkrývá kliknutím. Nejde o ochranu tajných dat; diagram zůstává viditelný celý.
 Tato změna nevyžaduje migraci: rozbor je součástí existujícího JSON payloadu, staré příspěvky fungují dál.
 Dodatečný test navigace: `php -d extension=pdo_sqlite tests/pages.php` (vyžaduje PDO SQLite).
+
+## Ankety a moderované komentáře (vyžaduje migraci)
+
+**Nejdříve Zdeněk spustí `migrations/2026-10-04-ankety-komentare.sql`, teprve potom lze nasadit tuto část kódu.** Migrace přidává dvě tabulky, nemění stávající příspěvky. Obsahuje `IF NOT EXISTS`, lze ji spustit znovu. Vytvořené tabulky nemažte při návratu předchozího kódu: obsahují hlasy a komentáře.
+
+- Autor i správce mohou u každého příspěvku zvlášť zapnout anketu (2–8 možností) a diskusi. Původní příspěvky mají obojí vypnuté.
+- Hlas se váže na náhodnou cookie prohlížeče, nikoli na ověřenou osobu. Smazání cookies nebo jiný prohlížeč umožňuje další hlas. Není to hlasovací systém pro závazná rozhodnutí.
+- Změna otázky či pořadí/textu možností tvoří novou verzi ankety. Staré hlasy se nemažou a nepřičtou se k jiným možnostem; návrat k přesně stejné anketě zobrazí její původní hlasy.
+- Výsledky jsou vidět po hlasování nebo po stisku Zobrazit výsledky.
+- Komentář vyžaduje jméno a text, ne účet ani e-mail. Vždy čeká na schválení na `komentare.php` (odkaz ze správy); schválený komentář lze skrýt a skrytý znovu schválit.
+- Diskuse je na stránce zpočátku sbalená, protože může obsahovat řešení. Vypnutí diskuse komentáře nemaže, ale veřejně je nezpřístupňuje.
+- Veřejné API nikdy nevrací čekající/skryté komentáře ani komentáře u nepublikovaného příspěvku. Opakovaný přenos stejného komentáře ve stejné relaci nevytváří duplicitu. Hlasy se zapisují s unikátním klíčem a kontrolou aktuální verze ankety.
+
+Kontroly navíc: `php tests/community.php`, `node tests/editor.cjs`, `node --check public/community.js`, `node --check public/editor.js`, `node --check public/deal.js`.
+Po nasazení ověřit hlasování, opakování hlasu, odeslání komentáře a jeho zveřejnění/skrytí správcem. Nepoužívat skutečné příspěvky pro destruktivní testy.
+
+## Hlavní vypínač diskusí
+
+Před nasazením také spustit doplňkovou migraci `migrations/2026-10-04-globalni-diskuse.sql`. Již odeslaná migrace anket/komentářů se nemění. Nová tabulka ukládá globální nastavení, výchozí stav diskusí je **vypnuto**. Opakování migrace nezmění pozdější volbu správce.
+
+Ve správě je hlavní tlačítko Povolit diskuse na webu / Vypnout všechny diskuse. Globální vypnutí má přednost před volbou u jednotlivých příspěvků: skryje komentáře a formuláře a odmítne nové komentáře i z dříve otevřené stránky. Ankety fungují dál. Komentáře ani nastavení příspěvků se nemažou a moderování zůstává dostupné. Opětovné zapnutí obnoví jen diskuse povolené u konkrétních příspěvků. Již načtený obsah v prohlížeči se odstraní až při dalším načtení; nejde o vzdálené vymazání stránky.
+
+Zápis komentáře drží zámek řádku nastavení až do dokončení transakce. Po dokončení vypnutí se proto nemůže dopsat komentář, který se opíral o staré povolení. Souběžná změna nastavení druhým správcem je chráněna kontrolou předchozí hodnoty. Test: `php tests/discussions.php` s PDO SQLite.
+
+## Nasazení 5. 10. 2026
+
+Ondřej potvrdil spuštění obou SQL migrací. Řazení přehledu nabízí Nejnovější rozdání, Nejvíce komentářů a Poslední aktivita v diskusi. Platí pro vybraný rok nebo Všechny roky. Počítají se jen schválené komentáře u viditelných diskusí, hlasy v anketách pořadí nemění. Hlavní vypínač při vypnutí skryje i volby řazení podle diskuse. Výchozí stav diskusí po migraci zůstává vypnutý, správce jej změní ve správě.

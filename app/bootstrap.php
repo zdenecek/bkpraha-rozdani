@@ -31,7 +31,8 @@ function fail(string $message, int $status=400): never {
     http_response_code($status); header('Content-Type: application/json; charset=utf-8');
     echo json_encode(['error'=>$message],JSON_UNESCAPED_UNICODE); exit;
 }
-function admin(): bool { return isset($_SESSION['admin_until']) && $_SESSION['admin_until'] > time(); }
+require_once __DIR__.'/settings.php';
+function admin(): bool { return admin_session_valid($_SESSION,time()); }
 function csrf(string $value): void {
     if (!hash_equals($_SESSION['csrf'], $value)) fail('Platnost stránky vypršela. Obnovte ji a zkuste to znovu.',403);
 }
@@ -45,3 +46,4 @@ function limit(string $action,int $max): void {
     if ((int)$q->fetchColumn()>$max) fail('Příliš mnoho pokusů. Zkuste to prosím později.',429);
 }
 function h(string $s): string { return htmlspecialchars($s,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8'); }
+

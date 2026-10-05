@@ -21,7 +21,7 @@ function admin_session_valid(array $session,int $now): bool {
 }
 function change_admin_password(string $current,string $new,string $repeat): void {
     if($new!==$repeat)throw new InvalidArgumentException('Nová hesla se neshodují.');
-    if(strlen($new)<14||strlen($new)>72)throw new InvalidArgumentException('Nové heslo musí mít 14 až 72 bajtů (běžných znaků). Doporučujeme delší heslovou frázi.');
+    if(!trim($new)||preg_match_all('/./us',$new)<14||strlen($new)>72)throw new InvalidArgumentException('Nové heslo musí mít alespoň 14 znaků a nejvýše 72 bajtů. Znaky s diakritikou zabírají více bajtů.');
     if($new===$current)throw new InvalidArgumentException('Zvolte jiné heslo než současné.');
     db()->beginTransaction();
     try{

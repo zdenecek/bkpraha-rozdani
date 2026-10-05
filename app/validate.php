@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/community.php';
 // Authoritative validation: never trust the browser's checks.
 function validate_deal(mixed $v): array {
     if (!is_array($v) || ($v['version']??null)!==1 || !in_array($v['dealer']??null,['N','E','S','W'],true) || !in_array($v['vul']??null,['none','NS','EW','both'],true)) throw new InvalidArgumentException('Neplatný formát rozdání.');
@@ -29,6 +30,9 @@ function validate_deal(mixed $v): array {
     $solution=$v['solution']??'';
     if(!is_string($solution)||preg_match_all('/./us',$solution)>20000)throw new InvalidArgumentException('Rozbor může mít nejvýše 20 000 znaků.');
     $out['solution']=trim($solution);
+    $out['poll']=validate_poll($v['poll']??null);
+    if(isset($v['commentsEnabled'])&&!is_bool($v['commentsEnabled']))throw new InvalidArgumentException('Neplatné nastavení diskuse.');
+    $out['commentsEnabled']=$v['commentsEnabled']??false;
     $a=$v['auction']??null;
     if(!is_array($a)||!array_is_list($a)||count($a)>400)throw new InvalidArgumentException('Neplatná dražba.');
     $high=-1;$bidder=-1;$doubled=0;$passes=0;$closed=false;

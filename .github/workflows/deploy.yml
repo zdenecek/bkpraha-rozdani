@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - kevin/moderation-notifications
+      - kevin/admin-settings
     paths:
       - app/**
       - public/**

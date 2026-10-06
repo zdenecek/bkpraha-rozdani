@@ -15,7 +15,9 @@ $config = require __DIR__.'/config.php';
 if (strlen($config['secret'] ?? '') < 32 || !str_starts_with($config['admin_password_hash'] ?? '', '$')) {
     throw new RuntimeException('Incomplete configuration');
 }
-session_set_cookie_params(['secure'=>true,'httponly'=>true,'samesite'=>'Lax','path'=>'/']);
+// Keep this application's session independent of other BKP sites.
+session_name('__Host-BKPRozdani');
+session_set_cookie_params(['secure'=>true,'httponly'=>true,'samesite'=>'Lax','path'=>'/','domain'=>'']);
 ini_set('session.use_strict_mode','1');
 session_start();
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
@@ -46,4 +48,3 @@ function limit(string $action,int $max): void {
     if ((int)$q->fetchColumn()>$max) fail('Příliš mnoho pokusů. Zkuste to prosím později.',429);
 }
 function h(string $s): string { return htmlspecialchars($s,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8'); }
-

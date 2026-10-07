@@ -9,7 +9,7 @@ $discussionEnabled=$deal&&!empty($deal['commentsEnabled'])&&discussions_enabled(
 if($deal&&!empty($deal['poll']))reader_key(true);
 $newer=$post?post_neighbour($post,true):false;$older=$post?post_neighbour($post,false):false;
 ?>
-<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?=h($deal?$deal['title'].' – Zajímavá rozdání':'Rozdání není dostupné')?> – BK Praha</title><link rel="stylesheet" href="style.css?v=20261005"><meta name="csrf-token" content="<?=h($_SESSION['csrf'])?>"></head><body>
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?=h($deal?$deal['title'].' – Zajímavá rozdání':'Rozdání není dostupné')?> – BK Praha</title><link rel="stylesheet" href="style.css?v=20261007"><meta name="csrf-token" content="<?=h($_SESSION['csrf'])?>"></head><body>
 <?php require __DIR__.'/../app/header.php'; ?>
 <main class="home deal-page"><a class="back-link" href="index.php">← Seznam rozdání</a>
 <?php if(!$post):?><h1>Rozdání není dostupné</h1><p>Příspěvek nebyl zveřejněn nebo už není dostupný.</p>
@@ -27,4 +27,3 @@ $newer=$post?post_neighbour($post,true):false;$older=$post?post_neighbour($post,
 <?php if($newer):$n=json_decode($newer['payload'],true);?><a href="rozdani.php?id=<?=(int)$newer['id']?>"><small>← Novější rozdání</small><span><?=h($n['title'])?></span></a><?php endif;?>
 <?php if($older):$n=json_decode($older['payload'],true);?><a href="rozdani.php?id=<?=(int)$older['id']?>"><small>Starší rozdání →</small><span><?=h($n['title'])?></span></a><?php endif;?></nav><p><a href="index.php">Zpět na seznam rozdání</a></p>
 <?php endif;?></main><?php require __DIR__.'/../app/footer.php'; ?><script src="deal.js?v=20261005" defer></script><script src="community.js?v=20261005" defer></script></body></html>
-

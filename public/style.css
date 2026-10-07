@@ -60,6 +60,9 @@ a.button:hover{background:#236348}
 @media print{.bkp-header,.bkp-footer{display:none}}
 
 
+/* Same body typography for the assignment, solution and discussion. */
+.deal-page .prose,.deal-page .comment p{font-size:18px;line-height:1.7}
+
 .feed{max-width:720px;margin:auto;padding:12px}.feed .preview{position:static}.trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 
 /* Index and individual articles share stable, linkable pages. */
